@@ -97,6 +97,10 @@ module AckInProject
       AckInProject::SearchResults.new(plist).show
     end
     
+    def last_result_file_name
+      File.join(ENV["HOME"],".ack","last_result.html")
+    end
+    
     # sigh... defaults is giving me grief when searches contain quotes
     def search_history
       unless @search_history
@@ -134,3 +138,11 @@ module AckInProject
 end
 
 AckInProject::Environment.load_environment
+
+alias old_puts puts
+$buffer=""
+
+def puts(t)
+  old_puts(t)
+  $buffer << t
+end

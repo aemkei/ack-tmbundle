@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class AckInProject::SearchResults
   include AckInProject::Environment
   AckInProject::Environment.ghetto_include %w(web_preview escape), binding
@@ -28,6 +30,15 @@ class AckInProject::SearchResults
       <script type="text/javascript">searchCompleted();</script>
     HTML
     html_footer
+    save_buffer
+  end
+    
+  def save_buffer
+    file=AckInProject.last_result_file_name
+    FileUtils.mkdir_p(File.dirname(file))
+    File.open(file,"w") do |f|
+      f.write $buffer
+    end
   end
   
   def title 

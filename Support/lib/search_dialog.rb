@@ -11,6 +11,11 @@ class AckInProject::SearchDialog
     plist = OSX::PropertyList::load(%x{#{command}})
     if plist['result']
       block.call(plist)
+    else
+      last_result_file=AckInProject.last_result_file_name
+      if File.exists?(last_result_file)
+        puts File.read(last_result_file)
+      end
     end
   end
   
