@@ -5,13 +5,15 @@ Type command-shift-a to ack your project in TextMate... 'nuff said.
 
 You can learn more about ack at <a href="http://petdance.com/ack/">http://petdance.com/ack/</a>.
 
+This fork adds file-type filtering, allowing you to (say) search only within .js files.
+
 <h2>Installation</h2>
 
 * Run this:
  
 <pre>
 cd ~/Library/Application\ Support/TextMate/Bundles
-git clone git://github.com/protocool/ack-tmbundle.git Ack.tmbundle
+git clone git://github.com/kemayo/ack-tmbundle.git Ack.tmbundle
 </pre>
 
 <h2>Bugs</h2>
@@ -41,4 +43,5 @@ The code is based on GrepInProject++ which was itself based on other's code as b
 # Includes some minor modifications by Max (http://max.xaok.org/webtek) 2007-08-01
 # Adds search UI plus some minor modifications by Robert Thurnher (http://soup.robert42.com) 2007-08-11
 # Further modifications by Trevor Squires (http://somethinglearned.com) 2008-05-21
+# Yet more modifications by David Lynch (http://davidlynch.org) 2009-02-12
 </pre>

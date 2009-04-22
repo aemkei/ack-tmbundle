@@ -25,18 +25,18 @@ class AckInProject::Search
 
   def section_start(file)
     self.current_file = file
-    reset_stripe
-    puts %Q|<h1>#{current_file}<script>f();</script></h1>|
-    puts '<table id="results" width="100%" cellspacing="0" cellpadding="0">'
+    reset_stripe()
+    puts %Q|<table id="file#{files_matched}" class="file" width="100%" cellspacing="0">|
+    puts %Q|<thead class="filename"><tr><th colspan="2">#{current_file}<script>f();</script></th></tr></thead>|
     puts %Q|<tbody class="matches">|
-    file_matched()
   end
   
   def section_end
     if current_file
-#      puts %Q|<tr><td>&nbsp;</td><td>&nbsp;</td></tr>|
       puts %Q|</tbody>|
-      puts '</table>'
+      puts %Q|</table>|
+      puts %Q|<script type="text/javascript">searchResultAdded('file#{files_matched}');</script>|
+      file_matched()
     end
     self.current_file = nil
   end
@@ -56,7 +56,7 @@ class AckInProject::Search
   end
   
   def context_break()
-    reset_stripe
+    reset_stripe()
     puts %Q|<tr class="context break"><td>...</td><td>&nbsp;</td></tr>|
   end
   
@@ -89,7 +89,16 @@ class AckInProject::Search
     options << '-C' if result['showContext'] == 1
     options << "--#{result['followSymLinks'] == 1 ? '' : 'no'}follow"
     options << "--#{result['loadAckRC'] == 1 ? '' : 'no'}env"
-
+    
+    options << case result['ackFileType']
+      when 'Normal'
+        ''
+      when 'All'
+        '--all-types'
+      else
+        '--type='+result['ackFileType']
+      end
+    
     AckInProject.update_search_history result['returnArgument']
     AckInProject.update_pbfind result['returnArgument']
 
@@ -112,7 +121,7 @@ class AckInProject::Search
         when /^(\d+)-(.*)$/
           context_line($1, $2)
         when /^--$/
-          context_break
+          context_break()
         end
         $stdout.flush
       end

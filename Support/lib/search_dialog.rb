@@ -1,3 +1,7 @@
+# NOTE: To get values put into plist['result'], they need to be put into the bindings for the "Find"
+# button. *Including* the "Selector Name" for "Target".
+# This is probably intuitive to experienced Cocoa programmers. I am not one. ~David
+
 class AckInProject::SearchDialog
   include AckInProject::Environment
   AckInProject::Environment.ghetto_include %w(web_preview), binding
@@ -23,18 +27,17 @@ class AckInProject::SearchDialog
     %w(
       ackMatchWholeWords ackIgnoreCase ackLiteralMatch 
       ackShowContext ackFollowSymlinks ackLoadAckRC
-    ).inject({}) do |hsh,v|
+    ).inject({'ackFileType'=>'Normal'}) do |hsh,v|
       hsh[v] = false
       hsh
     end
   end
   
   def params
-    history = AckInProject.search_history
     {
-      #'contentHeight' => 168,
       'ackExpression' => AckInProject.pbfind,
-      'ackHistory' => history
+      'ackHistory' => AckInProject.search_history,
+      'ackFileTypes' => filetypes,
     }
   end
   
@@ -46,6 +49,11 @@ class AckInProject::SearchDialog
       <h1>Can't determine project directory (TM_PROJECT_DIR)</h1>
     </body></html>
     HTML
+  end
+  
+  def filetypes
+    # I'm sure there's a better way to pass these to the NIB than an array of objects... but I'm not familiar with it.
+    %x{#{e_sh ack} --help=types}.scan(/--\[no\]([^ ]+)/).unshift(['Normal'], ['All']).map{ |type_array| {'filetype'=>type_array[0],} }
   end
 end
 

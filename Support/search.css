@@ -1,4 +1,5 @@
-table { font-size:0.9em; border-collapse:collapse; border-bottom:1px solid #555; }
+table { font-size:0.9em; border-collapse:collapse; border:1px solid #ccc; margin-bottom: 10px; }
+table thead { cursor: pointer; -webkit-user-select: ignore;}
 h2 { font-size:1.3em; margin-bottom: 0.25em;}
 div#counters {margin-bottom: 1.5em; color:#777;}
 tr { background:#FFF; }
