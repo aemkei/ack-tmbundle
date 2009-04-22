@@ -983,6 +983,7 @@ BEGIN {
         cpp         => [qw( cpp cc cxx m hpp hh h hxx )],
         csharp      => [qw( cs )],
         css         => [qw( css )],
+        cucumber    => [qw( feature )],
         elisp       => [qw( el )],
         erlang      => [qw( erl )],
         fortran     => [qw( f f77 f90 f95 f03 for ftn fpp )],
